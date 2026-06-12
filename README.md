@@ -21,7 +21,7 @@ Status is set to **Crop Proposal (Pending Approval)**.
 
 ---
 
-### Step 2 — Crop Approved *(Jakob)*
+### Step 2 — Crop Approved *(Admin)*
 Jakob reviews the proposed bounding box in WebKnossos or Neuroglancer:
 1. Visually inspects the proposed region for tissue quality
 2. Adjusts the bbox center / placement if needed
