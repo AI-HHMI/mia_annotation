@@ -97,6 +97,8 @@ For LICONN: ingestion happens every Monday. Fields are updated after each export
 | `Last_Updated` | Admin | Date of last ingestion |
 | `Completion_Pct` | Annotator | % estimate of annotation completeness |
 | `WK_Link` | Admin | WebKnossos annotation URL (LICONN only) |
+| `Bbox_TopLeft` | Admin | Crop bbox top-left corner e.g. "X=931, Y=900, Z=171" |
+| `Bbox_Size` | Admin | Crop bbox size e.g. "714×714×260 vox (77×77×78 μm)" |
 | `Downstream_Use` | Admin | Which model or training run uses this data |
 
 ---
