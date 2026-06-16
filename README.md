@@ -161,7 +161,3 @@ Use it to apply multiple tags per issue. Search labels by typing in the label pi
 `modality: Light-sheet (LLSM)` · `modality: Light-sheet (diSPIM)` · `modality: Expansion Microscopy (Spinning Disk)` · `modality: Expansion Microscopy (Mirror)` · `modality: Expansion Microscopy (Widefield)` · `modality: ATUM-mSEM` · `modality: FIB-SEM` · `modality: ssTEM (Multibeam SEM)` · `modality: IBEAM-mSEM` · `modality: Confocal (CLSM)`
 
 ---
-
-## Adding a New Crop
-
-See `Jakob/mia_annotation.md` in the MIAAI repo for field IDs, item IDs, and update scripts.
