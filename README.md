@@ -2,7 +2,7 @@
 
 Issue tracker and annotation progress board for active MIAAI annotation projects.
 
-**Project board**: https://github.com/orgs/AI-HHMI/projects/1/views/1?visibleFields=%5B%22Title%22%2C%22Status%22%2C%22Assignees%22%2C356485839%2C356485436%2C356485843%2C356485841%2C356505640%2C356485844%2C356503294%2C356503308%2C356485840%2C356498263%2C358861483%2C358058575%2C358861484%2C358937946%2C358938104%2C%22Labels%22%2C356485437%2C%22Linked+pull+requests%22%2C%22Sub-issues+progress%22%2C359289068%2C359289521%5D
+**Project board**: https://github.com/orgs/AI-HHMI/projects/1
 **Datasets**: Betzig Fish mosaic · LICONN DG / Cortex / Hippocampus · Matt LICONN
 
 ---
