@@ -1,0 +1,25 @@
+name: post-comment
+on:
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: Issue number
+        required: true
+      body:
+        description: Comment text
+        required: true
+permissions:
+  issues: write
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post the comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          ISSUE: ${{ inputs.issue }}
+          BODY: ${{ inputs.body }}
+        run: |
+          case "$ISSUE" in ''|*[!0-9]*) echo "not an issue number"; exit 1;; esac
+          gh issue comment "$ISSUE" --repo "$REPO" --body "$BODY"
