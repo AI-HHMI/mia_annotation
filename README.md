@@ -32,23 +32,30 @@ Open the list of forms: **https://github.com/AI-HHMI/mia_annotation/issues/new/c
 7. If you made a mistake, edit the issue (**...** then **Edit**) or add a comment with the correction; do not open a second issue for the same request.
 
 Formats to keep, because the automation reads them as written:
-- boxes: each form asks for the box in separate fields, one field for each part. **Annotate a crop**: the start corner (`X=1000, Y=1000, Z=807`) in one field and the size (`482x482x194`) in the next, both in voxels of the raw image. **Proofread a prediction**: one field per box as ranges (`Z[265:532], Y[678:946], X[572:841]`, the end is not included; up to three boxes), and one field for the grid the numbers are in (for example `segmentation layer (9 nm iso)`)
+- boxes: **BBox 1** is required, **BBox 2 to BBox 5** are optional, and **More BBoxes** takes boxes 6 to 10 (one per line). One box per field, in either of two ways: start to end, `Z[265:532], Y[678:946], X[572:841]` (the end is not included), or start and size, `X=1000, Y=1000, Z=807, size 482x482x194` (the size in the same axis order as the start). Voxels of the raw image for an annotation; for a proofread request also fill the **Grid** step (for example `segmentation layer (9 nm iso)`). The same box written twice counts once
 - images and predictions: Fileglancer links (or cluster paths)
 - people: GitHub users with `@`
 
-**The box is part of the request.** Put it in the **Bbox start** and **Bbox size** steps of the annotation form, or in the **BBox** steps of the proofread form: it is written into the issue body, and the automation reads it from there. There is no separate form for a box. If the box has to change later (or is added to an issue that is already open), write it in a comment on that issue:
+**The box is part of the request.** Put it in the **BBox** steps of the annotation or proofread form: it is written into the issue body, and the automation reads it from there. For an annotation request the automation answers with **one Neuroglancer view with all the boxes drawn over the raw image** (one reply for all of them). There is no separate form for a box. If a box has to change later (or is added to an issue that is already open), write it in a comment on that issue:
 
 ```
 Bbox: topLeft X=1000, Y=1000, Z=807 - size 482x482x194 vox
 ```
 
-(or `Z[265:532], Y[678:946], X[572:841]` with the grid they are in). The automation answers with a Neuroglancer link of the box; reply there if it needs to change.
+(or `Z[265:532], Y[678:946], X[572:841]` with the grid they are in). The automation answers with a Neuroglancer link of the box; reply there if it needs to change. A change comment on an issue that has several boxes is not guessed: say which box and give its new numbers.
+
+**Neuroglancer view in the proofread form.** After the boxes and the grid, the form asks (a required step) whether you want a view:
+1. **Yes, post one view with all the boxes**: the automation posts one Neuroglancer view with all the boxes drawn over the raw image the labels pair with, at the same physical place (your boxes count in the grid you gave, for example 9 nm, and are converted to the raw image's voxels). Nothing else changes; the Paintera files are still asked for in a comment.
+2. **No view needed**: nothing is posted.
+3. **I will paste my own link**: paste it in the next step. It stays in the issue as you wrote it; the automation only says something if the boxes drawn in your link differ from the boxes written in the form.
+
+A box that falls outside the raw image is reported with its number and never clipped. For an annotation request there is no such choice: the view is always posted, because the box is approved through it.
 
 A new dataset or crop is requested in [mia_pretraining](https://github.com/AI-HHMI/mia_pretraining) with its own form.
 
 ## 2. What happens to an issue
 
-1. **Box.** A request with a box is answered with a Neuroglancer link of the box on the raw image. Reply there if it needs to change. When the box is approved, the issue's `Status` becomes `Crop Approved` and the board gets `Bbox`, `Bbox_size`, `Source_Image_Path`, `Fileglancer_Path` and `Last_Updated`.
+1. **Box.** A request with a box (or several) is answered with one Neuroglancer link with all the boxes on the raw image. Reply there if it needs to change. When the box is approved, the issue's `Status` becomes `Crop Approved` and the board gets `Bbox`, `Bbox_size`, `Source_Image_Path`, `Fileglancer_Path` and `Last_Updated`.
 2. **Annotation or proofreading.** The work is done with the tool named in `Tool` (Amira, Paintera or WebKnossos). For a proofreading request, ask in a comment ("could you please provide @user with the Paintera formatted labels for the BBoxes?"): after the approver says yes, the Paintera files are made and the people named get a comment with their paths. The annotation team moves the card through `In Annotation` and the screening rounds (`Screening Queue`, `Initial Screen`, `Fix`, `nth Screen`), or, for proofreading, `Proofreading` and its own screening rounds.
 3. **Export.** When the work is done, the annotator replies on the issue with `Exported to <folder path>` and says `final` or `snapshot`. A snapshot is a mid-way copy; a final is the finished label.
 4. **Ingestion.** After the approver's yes, the label is added to the crop in the data collection, a report is posted on the issue, the approver checks it, and the label's board fields are filled. A snapshot leaves `Status` as it is. A final sets `Status` to `manual_gt_ingested` (or `proofread_ingested`, `public_gt_ingested`, `auto_pred_ingested` for the other kinds of label) and renames the issue to the label's name (`<dataset>_<crop>_<label>`).

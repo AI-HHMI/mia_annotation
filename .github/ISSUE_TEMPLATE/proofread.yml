@@ -45,50 +45,81 @@ body:
 - type: input
   id: bbox1
   attributes:
-    label: 'Step 5. BBox 1 (voxels: Z[start:end], Y[start:end], X[start:end])'
-    description: One box per field, as ranges (the end is not included).
-    placeholder: Z[265:532], Y[678:946], X[572:841]
+    label: Step 5. BBox 1 (voxels)
+    description: One box. Either start to end, `Z[265:532], Y[678:946], X[572:841]` (the end is not included), or start and size, `Z=265, Y=678, X=572, size 267x268x269` (the size in the same axis order as the start). Give the next box in the next step;
+      leave unused ones empty.
+    placeholder: Z[265:532], Y[678:946], X[572:841]  (or Z=265, Y=678, X=572, size 267x268x269)
   validations:
     required: true
 - type: input
   id: bbox2
   attributes:
-    label: 'Step 6. BBox 2 (voxels: Z[start:end], Y[start:end], X[start:end]) (optional)'
-    placeholder: Z[1035:1302], Y[167:436], X[844:1114]
+    label: Step 6. BBox 2 (voxels, optional)
 - type: input
   id: bbox3
   attributes:
-    label: 'Step 7. BBox 3 (voxels: Z[start:end], Y[start:end], X[start:end]) (optional)'
+    label: Step 7. BBox 3 (voxels, optional)
+- type: input
+  id: bbox4
+  attributes:
+    label: Step 8. BBox 4 (voxels, optional)
+- type: input
+  id: bbox5
+  attributes:
+    label: Step 9. BBox 5 (voxels, optional)
+- type: textarea
+  id: bbox_more
+  attributes:
+    label: Step 10. More BBoxes (optional)
+    description: Boxes 6 to 10, one box per line, in either format.
 - type: input
   id: bbox_grid
   attributes:
-    label: Step 8. Grid the BBox numbers are in (resolution)
+    label: Step 11. Grid the BBox numbers are in (resolution)
     description: 'Which voxel grid the numbers count in: the segmentation layer, or the raw image.'
     placeholder: segmentation layer (9 nm iso)
   validations:
     required: true
+- type: dropdown
+  id: ng_view
+  attributes:
+    label: Step 12. Neuroglancer view of the boxes
+    description: A view shows the boxes drawn over the raw image, so everyone sees the same regions.
+    options:
+    - Yes, post one view with all the boxes
+    - No view needed
+    - I will paste my own link (in the next step)
+    default: 0
+  validations:
+    required: true
+- type: input
+  id: ng_link
+  attributes:
+    label: Step 13. Your Neuroglancer link (optional, only for the third choice above)
+    description: The link of your own view. It stays as written; I only say something if the boxes drawn in it differ from the boxes above.
+    placeholder: https://fileglancer.int.janelia.org/neuroglancer/#!...
 - type: textarea
   id: neurons
   attributes:
-    label: Step 9. Neurons to trace (optional)
+    label: Step 14. Neurons to trace (optional)
     description: One per line, the segment id and a point inside it, in the same grid as the boxes.
     placeholder: 'ID: 218072156, coordinates ZYX: [276, 743, 698]'
 - type: input
   id: previous
   attributes:
-    label: Step 10. Done previously (optional)
+    label: Step 15. Done previously (optional)
     placeholder: manual_gt-cell-final, or none
 - type: input
   id: annotators
   attributes:
-    label: Step 11. Hand to (GitHub users)
+    label: Step 16. Hand to (GitHub users)
     placeholder: '@walshjj @takemurasa'
   validations:
     required: true
 - type: textarea
   id: tasks
   attributes:
-    label: Step 12. Tasks (optional)
+    label: Step 17. Tasks (optional)
     value: |
       1) Proofread every voxel inside the bbox. Voxels outside the bbox do not need to be proofread.
 - type: markdown

@@ -45,32 +45,46 @@ body:
   validations:
     required: true
 - type: input
-  id: bbox_start
+  id: bbox1
   attributes:
-    label: Step 5. Bbox start corner (voxels of the raw image, X, Y, Z)
-    description: The first voxel of the box, as X=, Y=, Z=.
-    placeholder: X=1000, Y=1000, Z=807
+    label: Step 5. BBox 1 (voxels of the raw image)
+    description: One box. Either start to end, `Z[265:532], Y[678:946], X[572:841]` (the end is not included), or start and size, `Z=265, Y=678, X=572, size 267x268x269` (the size in the same axis order as the start). Give the next box in the next step;
+      leave unused ones empty.
+    placeholder: X=1000, Y=1000, Z=807, size 482x482x194 (or Z[807:1001], Y[1000:1482], X[1000:1482])
   validations:
     required: true
 - type: input
-  id: bbox_size
+  id: bbox2
   attributes:
-    label: Step 6. Bbox size (voxels, X x Y x Z)
-    description: How many voxels the box spans along X, Y and Z.
-    placeholder: 482x482x194
-  validations:
-    required: true
+    label: Step 6. BBox 2 (voxels of the raw image, optional)
+- type: input
+  id: bbox3
+  attributes:
+    label: Step 7. BBox 3 (voxels of the raw image, optional)
+- type: input
+  id: bbox4
+  attributes:
+    label: Step 8. BBox 4 (voxels of the raw image, optional)
+- type: input
+  id: bbox5
+  attributes:
+    label: Step 9. BBox 5 (voxels of the raw image, optional)
+- type: textarea
+  id: bbox_more
+  attributes:
+    label: Step 10. More BBoxes (optional)
+    description: Boxes 6 to 10, one box per line, in either format.
 - type: input
   id: annotators
   attributes:
-    label: Step 7. Hand to (GitHub users)
+    label: Step 11. Hand to (GitHub users)
     placeholder: '@moric7 @trant16'
   validations:
     required: true
 - type: textarea
   id: notes
   attributes:
-    label: Step 8. Notes (optional)
+    label: Step 12. Notes (optional)
     description: Anything about the data (how it was made, what to look for).
 - type: markdown
   attributes:
