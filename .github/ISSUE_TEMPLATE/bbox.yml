@@ -6,25 +6,25 @@ body:
     attributes:
       value: |
         **How this form works**
-        1. Fill the fields below. The ones marked required must be filled before you can submit. The grey text in a box shows the exact format to use.
+        1. Go through the steps below in order (Step 1, Step 2, ...). A step marked (optional) can be left empty; the others must be filled before you can submit. The grey text in a box shows the exact format to use.
         2. Submit. The automation reads your answers as written, so please keep the formats (for example `Z[start:end], Y[start:end], X[start:end]`).
         3. Then the automation answers with a Neuroglancer link of the box on the raw image; reply there if the box needs to change.
         Questions about a field: ask in the comments or tag @dchen116.
   - type: input
     id: dataset
     attributes:
-      label: Dataset issue (link or number, for example mia_pretraining#479)
+      label: Step 1. Dataset issue (link or number, for example mia_pretraining#479)
     validations:
       required: true
   - type: input
     id: source
     attributes:
-      label: Source (Fileglancer link or cluster path to the raw image)
+      label: Step 2. Source (Fileglancer link or cluster path to the raw image) (optional)
       description: Leave empty when the dataset issue already holds it.
   - type: textarea
     id: bbox
     attributes:
-      label: Bbox
+      label: Step 3. Bbox
       description: The corner and size in voxels of the raw image, or `Z[a:b], Y[a:b], X[a:b]` and the grid they are in.
       placeholder: "Bbox: topLeft X=1000, Y=1000, Z=807 - size 482x482x194 vox"
     validations:
@@ -32,7 +32,7 @@ body:
   - type: dropdown
     id: purpose
     attributes:
-      label: What for
+      label: Step 4. What for
       options:
         - Annotation
         - Proofreading
@@ -42,5 +42,5 @@ body:
   - type: input
     id: annotators
     attributes:
-      label: Hand to (GitHub users)
+      label: Step 5. Hand to (GitHub users) (optional)
       placeholder: "@moric7"
