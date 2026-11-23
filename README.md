@@ -32,11 +32,11 @@ Open the list of forms: **https://github.com/AI-HHMI/mia_annotation/issues/new/c
 7. If you made a mistake, edit the issue (**...** then **Edit**) or add a comment with the correction; do not open a second issue for the same request.
 
 Formats to keep, because the automation reads them as written:
-- boxes: `BBox 1: Z[265:532], Y[678:946], X[572:841]` (voxels), with the grid they are in on the first line, for example `Resolution is segmentation layer (9 nm iso)`; or, for an annotation, `Bbox: topLeft X=1000, Y=1000, Z=807 - size 482x482x194 vox`
+- boxes: each form asks for the box in separate fields, one field for each part. **Annotate a crop**: the start corner (`X=1000, Y=1000, Z=807`) in one field and the size (`482x482x194`) in the next, both in voxels of the raw image. **Proofread a prediction**: one field per box as ranges (`Z[265:532], Y[678:946], X[572:841]`, the end is not included; up to three boxes), and one field for the grid the numbers are in (for example `segmentation layer (9 nm iso)`)
 - images and predictions: Fileglancer links (or cluster paths)
 - people: GitHub users with `@`
 
-**The box is part of the request.** Put it in the **Bbox** step of the annotation form, or in the **BBoxes** step of the proofread form: it is written into the issue body, and the automation reads it from there. There is no separate form for a box. If the box has to change later (or is added to an issue that is already open), write it in a comment on that issue:
+**The box is part of the request.** Put it in the **Bbox start** and **Bbox size** steps of the annotation form, or in the **BBox** steps of the proofread form: it is written into the issue body, and the automation reads it from there. There is no separate form for a box. If the box has to change later (or is added to an issue that is already open), write it in a comment on that issue:
 
 ```
 Bbox: topLeft X=1000, Y=1000, Z=807 - size 482x482x194 vox

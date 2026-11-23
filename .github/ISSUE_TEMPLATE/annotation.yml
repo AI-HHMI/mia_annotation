@@ -1,71 +1,78 @@
 name: Annotate a crop
 description: Ask for a crop of a volume to be annotated by hand
-title: "<dataset>_<crop>"
+title: <dataset>_<crop>
 body:
-  - type: markdown
-    attributes:
-      value: |
-        **How this form works**
-        1. Go through the steps below in order (Step 1, Step 2, ...). A step marked (optional) can be left empty; the others must be filled before you can submit. The grey text in a box shows the exact format to use.
-        2. Submit. The automation reads your answers as written, so please keep the formats (for example `Z[start:end], Y[start:end], X[start:end]`).
-        3. Then the automation answers with a Neuroglancer link of the box. When the annotation is done, the annotator replies `Exported to <folder path>` and says `final` or `snapshot`.
-        Questions about a field: ask in the comments or tag @dchen116.
-
-  - type: dropdown
-    id: kind
-    attributes:
-      label: Step 1. Kind of work
-      options:
-        - Annotate a crop (manual annotation)
-    validations:
-      required: true
-  - type: input
-    id: source
-    attributes:
-      label: Step 2. Source (Fileglancer link or cluster path to the raw image)
-      placeholder: "https://fileglancer.int.janelia.org/browse/groups_miaai_miaai/lmd-v0.0.1/data/<dataset>/crop-001_fullvol.zarr/raw"
-    validations:
-      required: true
-  - type: dropdown
-    id: organism
-    attributes:
-      label: Step 3. Organism
-      options:
-        - Drosophila
-        - Mouse
-        - Zebrafish
-        - Human
-        - Other (say which in the notes)
-    validations:
-      required: true
-  - type: input
-    id: expansion
-    attributes:
-      label: Step 4. Expansion factor
-      placeholder: "none, or for example 16x"
-    validations:
-      required: true
-  - type: textarea
-    id: bbox
-    attributes:
-      label: Step 5. Bbox
-      description: The corner and size in voxels of the raw image above, or `Z[a:b], Y[a:b], X[a:b]` and the grid they are in.
-      placeholder: "Bbox: topLeft X=1000, Y=1000, Z=807 - size 482x482x194 vox"
-    validations:
-      required: true
-  - type: input
-    id: annotators
-    attributes:
-      label: Step 6. Hand to (GitHub users)
-      placeholder: "@moric7 @trant16"
-    validations:
-      required: true
-  - type: textarea
-    id: notes
-    attributes:
-      label: Step 7. Notes (optional)
-      description: Anything about the data (how it was made, what to look for).
-  - type: markdown
-    attributes:
-      value: |
-        **Next:** the automation answers with a Neuroglancer link for the box. When the work is done, the annotator replies with `Exported to <folder path>` and says `final` or `snapshot`.
+- type: markdown
+  attributes:
+    value: |
+      **How this form works**
+      1. Go through the steps below in order (Step 1, Step 2, ...). A step marked (optional) can be left empty; the others must be filled before you can submit. The grey text in a box shows the exact format to use.
+      2. Submit. The automation reads your answers as written, so please keep the formats (for example `Z[start:end], Y[start:end], X[start:end]`).
+      3. Then the automation answers with a Neuroglancer link of the box. When the annotation is done, the annotator replies `Exported to <folder path>` and says `final` or `snapshot`.
+      Questions about a field: ask in the comments or tag @dchen116.
+- type: dropdown
+  id: kind
+  attributes:
+    label: Step 1. Kind of work
+    options:
+    - Annotate a crop (manual annotation)
+  validations:
+    required: true
+- type: input
+  id: source
+  attributes:
+    label: Step 2. Source (Fileglancer link or cluster path to the raw image)
+    placeholder: https://fileglancer.int.janelia.org/browse/groups_miaai_miaai/lmd-v0.0.1/data/<dataset>/crop-001_fullvol.zarr/raw
+  validations:
+    required: true
+- type: dropdown
+  id: organism
+  attributes:
+    label: Step 3. Organism
+    options:
+    - Drosophila
+    - Mouse
+    - Zebrafish
+    - Human
+    - Other (say which in the notes)
+  validations:
+    required: true
+- type: input
+  id: expansion
+  attributes:
+    label: Step 4. Expansion factor
+    placeholder: none, or for example 16x
+  validations:
+    required: true
+- type: input
+  id: bbox_start
+  attributes:
+    label: Step 5. Bbox start corner (voxels of the raw image, X, Y, Z)
+    description: The first voxel of the box, as X=, Y=, Z=.
+    placeholder: X=1000, Y=1000, Z=807
+  validations:
+    required: true
+- type: input
+  id: bbox_size
+  attributes:
+    label: Step 6. Bbox size (voxels, X x Y x Z)
+    description: How many voxels the box spans along X, Y and Z.
+    placeholder: 482x482x194
+  validations:
+    required: true
+- type: input
+  id: annotators
+  attributes:
+    label: Step 7. Hand to (GitHub users)
+    placeholder: '@moric7 @trant16'
+  validations:
+    required: true
+- type: textarea
+  id: notes
+  attributes:
+    label: Step 8. Notes (optional)
+    description: Anything about the data (how it was made, what to look for).
+- type: markdown
+  attributes:
+    value: |
+      **Next:** the automation answers with a Neuroglancer link for the box. When the work is done, the annotator replies with `Exported to <folder path>` and says `final` or `snapshot`.
