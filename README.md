@@ -1,163 +1,103 @@
 # mia_annotation
 
-Issue tracker and annotation progress board for active MIAAI annotation projects.
+Issue tracker and annotation progress board for the MIAAI annotation and proofreading work: one issue per crop to annotate, per prediction to proofread, and per label that was ingested.
 
 **Project board**: https://github.com/orgs/AI-HHMI/projects/1
-**Datasets**: Betzig Fish mosaic · LICONN DG / Cortex / Hippocampus · Matt LICONN
+**Data collection**: `/groups/miaai/miaai/lmd-v0.0.1/` (datasets are requested in [mia_pretraining](https://github.com/AI-HHMI/mia_pretraining))
 
 ---
 
-## Workflow
+## 1. Open an issue: use a form
 
-### Step 1 — Crop Proposed *(Admin)*
-A new crop issue is created with all available information pre-filled:
-- Source image path (raw zarr on cluster)
-- Crop volume / tile name
-- Proposed bounding box
-- Tool to use (Amira / Paintera / WebKnossos)
-- Dataset, model organism, data modality, task, structure of interest
+**New issue** offers forms, so a request carries what the automation needs. Pick one, go through the steps in order (Step 1, Step 2, ...), fill the required ones (a step marked *optional* can stay empty), and submit.
 
-Status is set to **Crop Proposal (Pending Approval)**.
+Open the list of forms: **https://github.com/AI-HHMI/mia_annotation/issues/new/choose** (or **Issues** > **New issue**). Or go straight to a form:
 
----
-
-### Step 2 — Crop Approved *(Admin)*
-Jakob reviews the proposed bounding box in WebKnossos or Neuroglancer:
-1. Visually inspects the proposed region for tissue quality
-2. Adjusts the bbox center / placement if needed
-3. Gives approval (via Slack or GitHub comment)
-
-Once approved, the admin:
-- Confirms or updates the bbox coordinates in the issue
-- Sets a WK annotation task with the bbox pre-configured
-- Assigns the crop to an annotator
-- Changes Status → **Crop Assigned (Approved)**
-
----
-
-### Step 3 — In Annotation *(Annotator)*
-When you start working on your crop:
-1. **Drag your card** from `Crop Assigned (Approved)` → `In Annotation`
-2. Optionally update:
-   - `Completion_Pct` — your % estimate of progress
-   - `Tool` — if different from what was pre-filled
-3. Leave a **comment** for any notes (complex structures, questions, blockers)
-
----
-
-### Step 4 — Done *(Annotator)*
-When your annotation is complete:
-1. Fill in `Annotation_Export_Path` — exact path where you saved the export file
-   - Amira users: `\\prfs\miaai\annotations\amira\...`
-   - Paintera users: `\\prfs\miaai\annotations\paintera_exports\...`
-   - WebKnossos users: leave blank — WK link is already in `WK_Link` field
-2. Set `Completion_Pct` → 100 (or your best estimate)
-3. Leave a **comment** with any notes on data quality or anything to be aware of before ingestion
-4. **Drag your card** → `Done`
-
----
-
-### Step 5 — Ingested *(Admin)*
-After the annotation is marked Done, the assigned admin will:
-1. Inspect the annotation export
-2. Run the ingestion pipeline
-3. Update `Ingested_Label_Path`, `Label_Count`, `Last_Updated`
-4. Change Status → `Ingested`
-
-For LICONN: ingestion happens every Monday. Fields are updated after each export regardless of card status.
-
----
-
-### Step 6 — Proofreading *(Annotator)*
-For crops that require a proofreading pass after initial annotation or automated segmentation:
-1. Admin sets Status → `Proofreading` and assigns a proofreader
-2. Proofreader reviews and corrects segmentation in WebKnossos or Amira
-3. When complete, update `Annotation_Export_Path` and drag card → `Done`
-
----
-
-## Status Overview
-
-| Status | Who acts | Meaning |
+| Form | Direct link | Use it to |
 |---|---|---|
-| `Crop Proposal (Pending Approval)` | Admin creates, Jakob approves | Bbox proposed — awaiting Jakob sign-off on placement |
-| `Crop Assigned (Approved)` | Admin sets after approval | Jakob approved bbox — assigned to annotator, WK task ready |
-| `In Annotation` | Annotator sets | Actively being annotated |
-| `Done` | Annotator sets | Annotation complete — awaiting ingestion |
-| `Ingested` | Admin sets | Ingested into lmd-v0.0.1 |
-| `Proofreading` | Admin sets | Undergoing proofreading pass |
-| `In Training` | Admin sets | Data actively used in a training run |
+| **Proofread a prediction** | https://github.com/AI-HHMI/mia_annotation/issues/new?template=proofread.yml | ask for an automatic segmentation to be proofread in one or more boxes. The title names the final label: `<dataset>_<crop>_manual_gt-<class>-final` |
+| **Annotate a crop** | https://github.com/AI-HHMI/mia_annotation/issues/new?template=annotation.yml | ask for a crop to be annotated by hand (source, organism, expansion factor, box, who it is for) |
+| **Add a box to an existing dataset** | https://github.com/AI-HHMI/mia_annotation/issues/new?template=bbox.yml | ask for a new box of a dataset that is already in the data collection |
 
----
+### How to use a form, step by step
 
-## Field Reference
+1. Open the list of forms at https://github.com/AI-HHMI/mia_annotation/issues/new/choose (or click **Issues**, then **New issue**).
+2. Pick the form from the list and click **Get started**. (A blank issue is still offered at the bottom, but the forms are preferred: the automation reads their answers as written.)
+3. Read the short "How this form works" note at the top.
+4. Fill the steps in order, Step 1, Step 2, and so on:
+   - A step marked **(optional)** can be left empty. Every other step must be filled before you can submit.
+   - The grey text in a box shows the format to copy. A dropdown is chosen from its list.
+   - Keep the formats exactly (boxes as `Z[start:end], Y[start:end], X[start:end]`, links and paths, `@` before a GitHub user), because the automation reads them.
+5. Click **Submit new issue**. The issue is written from your answers, under one heading per step.
+6. Then use comments as before, and answer the automation when it asks a question on the issue.
+7. If you made a mistake, edit the issue (**...** then **Edit**) or add a comment with the correction; do not open a second issue for the same request.
 
-| Field | Who fills it | Meaning |
-|---|---|---|
-| `Status` | Both | Workflow stage (see above) |
-| `Dataset` | Admin | Betzig Fish · MammalianLICONN · FlyLICONN · MICrONS |
-| `Model_Organism` | Admin | Zebrafish · Mouse · Drosophila · C. elegans · Human |
-| `Data_Modality` | Admin | Imaging modality + instrument (see options below) |
-| `Task` | Admin | Annotation task type (see options below) |
-| `Structure_of_Interest` | Admin | Biological structure being annotated (see options below) |
-| `Tool` | Annotator | Amira / Paintera / WebKnossos |
-| `Annotator` | Admin | Annotator full name |
-| `Timepoint` | Admin | e.g. t=0, t=9; N/A for LICONN |
-| `Source_Image_Path` | Admin | Raw image zarr on cluster |
-| `Annotation_Export_Path` | Annotator | Export file path (fill in at Step 4) |
-| `Ingested_Label_Path` | Admin | Final label path in lmd-v0.0.1 |
-| `Label_Count` | Admin | Verified label count after ingestion |
-| `Last_Updated` | Admin | Date of last ingestion |
-| `Completion_Pct` | Annotator | % estimate of annotation completeness |
-| `WK_Link` | Admin | WebKnossos dataset view URL (LICONN only) |
-| `WK_Ann_Link` | Admin | WebKnossos annotation URL with bbox overlay |
-| `Bbox` | Admin | Crop bbox range e.g. "X:931-1645, Y:900-1614, Z:171-431" |
-| `Bbox_size` | Admin | Crop bbox voxel + physical size e.g. "714×714×260 vox (77×77×78 μm)" |
-| `Labels` | Both | Multi-select tags — see label guide below |
+Formats to keep, because the automation reads them as written:
+- boxes: `BBox 1: Z[265:532], Y[678:946], X[572:841]` (voxels), with the grid they are in on the first line, for example `Resolution is segmentation layer (9 nm iso)`; or, for an annotation, `Bbox: topLeft X=1000, Y=1000, Z=807 - size 482x482x194 vox`
+- images and predictions: Fileglancer links (or cluster paths)
+- people: GitHub users with `@`
 
----
+A new dataset or crop is requested in [mia_pretraining](https://github.com/AI-HHMI/mia_pretraining) with its own form.
 
-## Field Options
+## 2. What happens to an issue
 
-### Data_Modality
-| Option | Description |
+1. **Box.** A request with a box is answered with a Neuroglancer link of the box on the raw image. Reply there if it needs to change. When the box is approved, the issue's `Status` becomes `Crop Approved` and the board gets `Bbox`, `Bbox_size`, `Source_Image_Path`, `Fileglancer_Path` and `Last_Updated`.
+2. **Annotation or proofreading.** The work is done with the tool named in `Tool` (Amira, Paintera or WebKnossos). For a proofreading request, ask in a comment ("could you please provide @user with the Paintera formatted labels for the BBoxes?"): after the approver says yes, the Paintera files are made and the people named get a comment with their paths. The annotation team moves the card through `In Annotation` and the screening rounds (`Screening Queue`, `Initial Screen`, `Fix`, `nth Screen`), or, for proofreading, `Proofreading` and its own screening rounds.
+3. **Export.** When the work is done, the annotator replies on the issue with `Exported to <folder path>` and says `final` or `snapshot`. A snapshot is a mid-way copy; a final is the finished label.
+4. **Ingestion.** After the approver's yes, the label is added to the crop in the data collection, a report is posted on the issue, the approver checks it, and the label's board fields are filled. A snapshot leaves `Status` as it is. A final sets `Status` to `manual_gt_ingested` (or `proofread_ingested`, `public_gt_ingested`, `auto_pred_ingested` for the other kinds of label) and renames the issue to the label's name (`<dataset>_<crop>_<label>`).
+5. **Label.** Issues of work done by the annotation team carry the label `mia ann/proof`.
+
+If something is missing or wrong (a source that cannot be read, a box outside the image, a label name that is already taken), the automation asks on the issue and writes nothing until it has an answer. A name that is already taken is answered with `/overwrite` (replace the label) or `/rename` (use another name).
+
+The forms do not set the board fields (`Status`, `Task`, ...): the team sets those on the board.
+
+## 3. Status
+
+| Status | Meaning |
 |---|---|
-| `Light-sheet (LLSM)` | Lattice Light Sheet Microscopy — Betzig Fish data |
-| `Light-sheet (diSPIM)` | Dual-view inverted SPIM — Hari Shroff lab data |
-| `Expansion Microscopy (Spinning Disk)` | ExM sample imaged on spinning disk confocal — LICONN data |
-| `Expansion Microscopy (Mirror)` | ExM sample imaged on mirror microscope |
-| `Expansion Microscopy (Widefield)` | ExM sample imaged on widefield microscope |
-| `ATUM-mSEM` | Automated Tape-collecting Ultramicrotome + multibeam SEM |
-| `FIB-SEM` | Focused Ion Beam Scanning Electron Microscopy |
-| `ssTEM (Multibeam SEM)` | Serial Section TEM with multibeam SEM — MICrONS data |
-| `IBEAM-mSEM` | Ion Beam multibeam SEM |
-| `Confocal (CLSM)` | Confocal Laser Scanning Microscopy |
+| `Crop Pending Approval` | a box is proposed and waits for approval |
+| `Crop Approved` | the box is approved; the work can start |
+| `On Hold` | paused |
+| `In Annotation` | being annotated by hand |
+| `Screening Queue`, `Initial Screen`, `Fix`, `nth Screen` | the screening rounds of an annotation |
+| `Done` | the annotation is complete and waits for ingestion |
+| `pre_paintera_proofreading` | a prediction waits to be sent to Paintera |
+| `Proofreading` | being proofread in Paintera |
+| `Proofread Screening Queue`, `Proofread Initial Screen`, `Proofread Fix`, `Proofread nth Screen` | the screening rounds of proofreading |
+| `post_paintera_proofreading` | proofreading is finished and waits for ingestion |
+| `manual_gt_ingested`, `public_gt_ingested`, `proofread_ingested`, `auto_pred_ingested` | the final label is in the data collection (the word says what kind of label it is) |
+| `In Training` | the data is used in a training run |
 
-### Task
-| Option | Description |
+## 4. Board fields
+
+| Field | Meaning |
 |---|---|
-| `dense annotation` | Annotating every structure in the volume |
-| `sparse annotation` | Annotating a selected subset of structures |
-| `dense proofreading` | Proofreading every structure in the volume |
-| `sparse proofreading` | Proofreading a selected subset of structures |
+| `Dataset` | the project the data belongs to (Betzig Fish, MammalianLICONN, FlyLICONN, MICrONS, CellMap, ...) |
+| `Model_Organism` | Zebrafish, Mouse, Drosophila, C. elegans, Human, ... |
+| `Task` | `dense annotation`, `sparse annotation`, `dense proofreading`, `sparse proofreading`, `assessment` |
+| `Structure_of_Interest_1`, `_2` | neurons, cells, mitochondria, synapses, nuclei |
+| `Tool` | Amira, Paintera or WebKnossos |
+| `OG Annotator` | the annotator's full name |
+| `Timepoint` | for time series, for example `t=5` |
+| `Source_Image_Path` | the raw image (cluster path of the crop's `raw`) |
+| `Fileglancer_Path` | the link to see the crop |
+| `Bbox`, `Bbox_size` | the box in voxels, and its size in voxels and microns |
+| `Proofread_Needed_Path` | the prediction to proofread |
+| `Proofread_Export_Path`, `GT_Export_Path` | where the proofreader's or annotator's export is |
+| `Proofread_Ingested_Path`, `GT_Ingested_Path` | where the ingested label is in the data collection |
+| `Label_Class`, `Segmentation_Type`, `Provenance`, `Proofreading_Status`, `Coverage` | what the label is (see the label rules below) |
+| `Label_Count` | the number of objects in the label |
+| `Completion_Pct` | percent of the work done |
+| `Last_Updated` | date of the last change to the label |
+| `WK_Link`, `WK_Ann_Link` | WebKnossos dataset and annotation links |
+| `Priority` | P1, P2, P3 |
 
-### Structure_of_Interest
-`neurons` · `cells` · `mitochondria` · `synapses` · `nuclei`
+### Label fields
+- `Segmentation_Type`: `instance` (every object its own id), `semantic` (each value is a class), `point`
+- `Provenance`: `manual_gt` (made by hand), `proofread`, `auto_pred` (automatic prediction), `public_gt` (public ground truth)
+- `Proofreading_Status`: `unreviewed`, `partial`, `full`, `expert_reviewed`, ...
+- `Coverage`: `dense_volume`, `full_volume`, `sparse_crop`, `sparse_points`
 
----
+## 5. Issue labels
 
-## Labels (multi-select)
-
-The **Labels** column is the only native multi-select field in GitHub Projects v2.
-Use it to apply multiple tags per issue. Search labels by typing in the label picker.
-
-### Task labels *(purple)*
-`task: dense annotation` · `task: sparse annotation` · `task: dense proofreading` · `task: sparse proofreading`
-
-### Structure labels *(green)*
-`structure: neurons` · `structure: cells` · `structure: mitochondria` · `structure: synapses` · `structure: nuclei`
-
-### Modality labels *(orange)*
-`modality: Light-sheet (LLSM)` · `modality: Light-sheet (diSPIM)` · `modality: Expansion Microscopy (Spinning Disk)` · `modality: Expansion Microscopy (Mirror)` · `modality: Expansion Microscopy (Widefield)` · `modality: ATUM-mSEM` · `modality: FIB-SEM` · `modality: ssTEM (Multibeam SEM)` · `modality: IBEAM-mSEM` · `modality: Confocal (CLSM)`
-
----
+`mia ann/proof` (annotated or proofread by the annotation team), the tool labels `Amira`, `Paintera`, `WebKnossos`, and the dataset labels `Betzig Fish`, `LICONN Cell Bodies`, `LICONN Organelles`, `MICrONS`.
