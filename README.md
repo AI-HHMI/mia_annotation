@@ -17,7 +17,6 @@ Open the list of forms: **https://github.com/AI-HHMI/mia_annotation/issues/new/c
 |---|---|---|
 | **Proofread a prediction** | https://github.com/AI-HHMI/mia_annotation/issues/new?template=proofread.yml | ask for an automatic segmentation to be proofread in one or more boxes. The title names the final label: `<dataset>_<crop>_manual_gt-<class>-final` |
 | **Annotate a crop** | https://github.com/AI-HHMI/mia_annotation/issues/new?template=annotation.yml | ask for a crop to be annotated by hand (source, organism, expansion factor, box, who it is for) |
-| **Add a box to an existing dataset** | https://github.com/AI-HHMI/mia_annotation/issues/new?template=bbox.yml | ask for a new box of a dataset that is already in the data collection |
 
 ### How to use a form, step by step
 
@@ -36,6 +35,14 @@ Formats to keep, because the automation reads them as written:
 - boxes: `BBox 1: Z[265:532], Y[678:946], X[572:841]` (voxels), with the grid they are in on the first line, for example `Resolution is segmentation layer (9 nm iso)`; or, for an annotation, `Bbox: topLeft X=1000, Y=1000, Z=807 - size 482x482x194 vox`
 - images and predictions: Fileglancer links (or cluster paths)
 - people: GitHub users with `@`
+
+**The box is part of the request.** Put it in the **Bbox** step of the annotation form, or in the **BBoxes** step of the proofread form: it is written into the issue body, and the automation reads it from there. There is no separate form for a box. If the box has to change later (or is added to an issue that is already open), write it in a comment on that issue:
+
+```
+Bbox: topLeft X=1000, Y=1000, Z=807 - size 482x482x194 vox
+```
+
+(or `Z[265:532], Y[678:946], X[572:841]` with the grid they are in). The automation answers with a Neuroglancer link of the box; reply there if it needs to change.
 
 A new dataset or crop is requested in [mia_pretraining](https://github.com/AI-HHMI/mia_pretraining) with its own form.
 
