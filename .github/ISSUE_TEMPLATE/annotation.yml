@@ -10,6 +10,8 @@ body:
       2. Submit. The automation reads your answers as written, so please keep the formats (for example `Z[start:end], Y[start:end], X[start:end]`).
       3. Then the automation answers with a Neuroglancer link of the box. When the annotation is done, the annotator replies `Exported to <folder path>` and says `final` or `snapshot`.
       Questions about a field: ask in the comments or tag @dchen116.
+
+      **One label (one timepoint) per issue.** If the same dataset needs another timepoint, open a new issue for it.
 - type: dropdown
   id: kind
   attributes:
@@ -62,10 +64,16 @@ body:
   attributes:
     label: Step 7. More BBoxes (BBox 3 and up, optional)
     description: Boxes 3 to 10, one box per line, in either format.
+- type: input
+  id: timepoint
+  attributes:
+    label: Step 8. Timepoint, for a time series (optional)
+    description: 'Only for a time series: the one timepoint to annotate. One label (one timepoint) per issue: for another timepoint of the same dataset, open a new issue. Leave empty when the data has no time axis.'
+    placeholder: t=5
 - type: dropdown
   id: ng_view
   attributes:
-    label: Step 8. Neuroglancer view of the boxes
+    label: Step 9. Neuroglancer view of the boxes
     description: The boxes drawn over the raw image, so everyone sees the same regions. The reply on the issue is how the boxes get approved.
     options:
     - Yes, post one view with all the boxes
@@ -77,20 +85,20 @@ body:
 - type: input
   id: ng_link
   attributes:
-    label: Step 9. Your Neuroglancer link (optional, only for the third choice above)
+    label: Step 10. Your Neuroglancer link (optional, only for the third choice above)
     description: The link of your own view. It is shown in the reply instead of a new one; I only add a note if the boxes drawn in it differ from the boxes above.
     placeholder: https://fileglancer.int.janelia.org/neuroglancer/#!...
 - type: input
   id: annotators
   attributes:
-    label: Step 10. Hand to (GitHub users)
+    label: Step 11. Hand to (GitHub users)
     placeholder: '@moric7 @trant16'
   validations:
     required: true
 - type: textarea
   id: notes
   attributes:
-    label: Step 11. Notes (optional)
+    label: Step 12. Notes (optional)
     description: Anything about the data (how it was made, what to look for).
 - type: markdown
   attributes:

@@ -11,6 +11,8 @@ body:
       3. Then use comments as before: ask for the Paintera files, and when the work is done the annotator replies `Exported to <folder path>` and says `final` or `snapshot`.
       Questions about a field: ask in the comments or tag @dchen116.
       The title becomes the name of the final label: `<dataset>_<crop>_manual_gt-<class>-final` (for example `exm-drosophila-flyliconn-FlyID49-2ndgel-DUP-BIS-40XW005-20260625_crop-001_manual_gt-neuron-final`).
+
+      **One label (one timepoint) per issue.** If the same dataset needs another timepoint, open a new issue for it.
 - type: dropdown
   id: kind
   attributes:
@@ -68,10 +70,16 @@ body:
     placeholder: segmentation layer (9 nm iso)
   validations:
     required: true
+- type: input
+  id: timepoint
+  attributes:
+    label: Step 9. Timepoint, for a time series (optional)
+    description: 'Only for a time series: the one timepoint to proofread. One label (one timepoint) per issue: for another timepoint of the same dataset, open a new issue. Leave empty when the data has no time axis.'
+    placeholder: t=5
 - type: dropdown
   id: ng_view
   attributes:
-    label: Step 9. Neuroglancer view of the boxes
+    label: Step 10. Neuroglancer view of the boxes
     description: A view shows the boxes drawn over the raw image, so everyone sees the same regions.
     options:
     - Yes, post one view with all the boxes
@@ -83,31 +91,31 @@ body:
 - type: input
   id: ng_link
   attributes:
-    label: Step 10. Your Neuroglancer link (optional, only for the third choice above)
+    label: Step 11. Your Neuroglancer link (optional, only for the third choice above)
     description: The link of your own view. It stays as written; I only say something if the boxes drawn in it differ from the boxes above.
     placeholder: https://fileglancer.int.janelia.org/neuroglancer/#!...
 - type: textarea
   id: neurons
   attributes:
-    label: Step 11. Neurons to trace (optional)
+    label: Step 12. Neurons to trace (optional)
     description: One per line, the segment id and a point inside it, in the same grid as the boxes.
     placeholder: 'ID: 218072156, coordinates ZYX: [276, 743, 698]'
 - type: input
   id: previous
   attributes:
-    label: Step 12. Done previously (optional)
+    label: Step 13. Done previously (optional)
     placeholder: manual_gt-cell-final, or none
 - type: input
   id: annotators
   attributes:
-    label: Step 13. Hand to (GitHub users)
+    label: Step 14. Hand to (GitHub users)
     placeholder: '@walshjj @takemurasa'
   validations:
     required: true
 - type: textarea
   id: tasks
   attributes:
-    label: Step 14. Tasks (optional)
+    label: Step 15. Tasks (optional)
     value: |
       1) Proofread every voxel inside the bbox. Voxels outside the bbox do not need to be proofread.
 - type: markdown
